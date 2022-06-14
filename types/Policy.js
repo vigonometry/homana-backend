@@ -1,5 +1,5 @@
 import { createModule, gql } from "graphql-modules";
-import { createPolicy, deletePolicy, updatePolicy } from "../db_functions/Policy.js";
+import { createPolicy, deletePolicy, readPolicies, readPolicy, updatePolicy } from "../db_functions/Policy.js";
 
 export const PolicyModule = createModule({
   id: "policy",
@@ -11,10 +11,12 @@ export const PolicyModule = createModule({
       type: String!
       insuredAmount: Float!
     }
-
+    type Query {
+      readPolicies: [Policy!]!
+      readPolicy: Policy
+    }
     type Mutation {
       createPolicy(
-        _id: String!
         title: String!
         brokerId: String!
         type: String!
@@ -25,6 +27,10 @@ export const PolicyModule = createModule({
     }
   `,
   resolvers: {
+    Query: {
+      readPolicies: (_, args) => readPolicies(),
+      readPolicy: (_, args) => readPolicy(args)
+    },
     Mutation: {
       createPolicy: (_, args, context) =>
         createPolicy({ ...args, clientId: context._id }),

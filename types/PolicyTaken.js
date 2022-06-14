@@ -24,7 +24,7 @@ export const PolicyTakenModule = createModule({
   `,
   resolvers: {
     Query: {
-      readPoliciesTaken: readPoliciesTaken(),
+      readPoliciesTaken: (_, args) => readPoliciesTaken(),
       readPolicyTaken: (_, args) => readPolicyTaken(args)
     }
   }

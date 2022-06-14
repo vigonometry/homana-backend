@@ -7,6 +7,7 @@ import { apolloApplication } from './apolloApplication.js';
 
 
 const schema = apolloApplication.createSchemaForApollo();
+const whitelisted = ['IntrospectionQuery', 'RegisterMutation', 'LoginMutation']
 
 const getUser = (token) => {
     if (token) {
@@ -21,6 +22,7 @@ const getUser = (token) => {
 const apolloContext = async ({ req }) => {
         if (req.body.operationName === 'IntrospectionQuery') return {}
         console.log(req.body.operationName)
+        if (whitelisted.includes(req.body.operationName)) return {}
         const token = req.headers.authorization || ''
         if (!token.includes('Bearer ')) throw new AuthenticationError("Token must use Bearer format.")
         const user = getUser(token.split(' ')[1])

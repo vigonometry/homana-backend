@@ -51,7 +51,7 @@ export const UserModule = createModule({
         if (!user) return { error: "Email is not in our database." };
         const valid = password === user.password;
         if (!valid) return { error: "Incorrect password entered." };
-        return { response: jwt.sign({ _id: user._id }, "homanus") };
+        return { response: jwt.sign({ _id: user._id, email: email }, "homanus") };
       },
     },
   },

@@ -1,6 +1,5 @@
 import { createModule, gql } from "graphql-modules";
-import { createAgent } from "../db_functions/Agent.js"
-import { readClients, readClient } from "../db_functions/Client.js"
+import { createAgent, readAgent, readAgents } from "../db_functions/Agent.js"
 
 export const AgentModule = createModule({
   id: "agent",
@@ -14,14 +13,13 @@ export const AgentModule = createModule({
     }
 
     type Query {
-      readClients: [Client!]! #resolver field
-      readClient(_id: ID!): Client #resolver field
+      readAgents: [Agent!]!
+      readAgent(_id: ID!): Agent
     }
 
     type Mutation {
       createAgent(
-        _id: String!
-        email: String!
+        email: String! 
         password: String!
         brokerId: String!
       ): HTTPResponse
@@ -29,8 +27,8 @@ export const AgentModule = createModule({
   `,
   resolvers: {
     Query: {
-      readClients: readClients(),
-      readClient: (_, args) => readClient(args),
+      readAgents: (_, args) => readAgents(),
+      readAgent: (_, args) => readAgent(args)
     },
     Mutation: {
       createAgent: (_, args) => createAgent(args),

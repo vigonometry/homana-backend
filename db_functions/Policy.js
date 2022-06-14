@@ -3,10 +3,6 @@ import { unpackMultipleDocuments, unpackSingleDocument } from "../utils/unpackDo
 const schemaTypes = mongoose.Schema.Types;
 
 export const PolicySchema = mongoose.Schema({
-  _id: {
-    type: schemaTypes.ObjectId,
-    required: [true, "This field cannot be empty."],
-  },
   title: {
     type: schemaTypes.String,
     required: [true, "This field cannot be empty."],

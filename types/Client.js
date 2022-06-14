@@ -1,7 +1,5 @@
 import { createModule, gql } from "graphql-modules";
-import { readClaim, readClaims } from "../db_functions/Claim.js";
-import { createClient } from "../db_functions/Client.js";
-import { readPoliciesTaken, readPolicyTaken } from "../db_functions/PolicyTaken.js";
+import { createClient, readClient, readClients } from "../db_functions/Client.js";
 
 export const ClientModule = createModule({
   id: "client",
@@ -11,20 +9,17 @@ export const ClientModule = createModule({
       email: ID
       password: String
       dependants: [ID!]!
-      policies: [PolicyTaken!]!
-      claims: [Claim!]!
+      policies: [PolicyTaken!]! #resolver
+      claims: [Claim!]! #resolver 
     }
 
     type Query {
-      readPoliciesTaken: [PolicyTaken!]! #resolver field
-      readPolicyTaken(policyId: ID!): PolicyTaken #resolver field
-      readClaims: [Claim!]! #resolver field
-      readClaim(_id: ID!): Claim
+      readClients: [Client!]!,
+      readClient(_id: ID!): Client
     }
 
     type Mutation {
       createClient(
-        _id: String!
         email: String
         password: String
         dependants: [String!]!
@@ -33,10 +28,8 @@ export const ClientModule = createModule({
   `,
   resolvers: {
     Query: {
-      readPoliciesTaken: readPoliciesTaken(),
-      readPolicyTaken: (_, args) => readPolicyTaken(args),
-      readClaims: readClaims(),
-      readClaim: (_, args) => readClaim(args),
+      readClients: (_, args) => readClients(),
+      readClient: (_, args) => readClient(args)
     },
     Mutation: {
       createClient: (_, args) => createClient(args),

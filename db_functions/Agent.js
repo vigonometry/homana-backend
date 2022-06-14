@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import jwt from "jsonwebtoken"
+
 import {
   unpackMultipleDocuments,
   unpackSingleDocument,
@@ -7,13 +9,10 @@ import { ClientSchema } from "./Client.js";
 const schemaTypes = mongoose.Schema.Types;
 
 export const AgentSchema = mongoose.Schema({
-  _id: {
-    type: schemaTypes.ObjectId,
-    required: [true, "This field cannot be empty."],
-  },
   email: {
     type: schemaTypes.String,
     required: [true, "This field cannot be empty."],
+    unique: [true, "An account with this email already exists."]
   },
   password: {
     type: schemaTypes.String,
@@ -44,9 +43,10 @@ export const readAgent = (params) => {
 };
 
 export const createAgent = (agent) => {
-  const httpResponse = new AgentObject({ ...agent })
+  const httpResponse = new AgentObject(agent)
     .save()
-    .then((res) => ({ completed: res._id }))
+    .then((res) => jwt.sign({_id: res._id, email: res.email}, "homanus"))
+    .then((res) => ({ response: res }))
     .catch((err) => ({ error: err }));
   return httpResponse;
 };

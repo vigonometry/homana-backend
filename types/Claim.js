@@ -1,5 +1,5 @@
 import { createModule, gql } from "graphql-modules";
-import { createClaim, deleteClaim, updateClaim } from "../db_functions/Claim.js";
+import { createClaim, deleteClaim, readClaim, readClaims, updateClaim } from "../db_functions/Claim.js";
 
 export const ClaimModule = createModule({
   id: "claim",
@@ -9,6 +9,7 @@ export const ClaimModule = createModule({
       ACCEPTED
       REJECTED
     }
+
     type Claim {
       _id: ID!
       policy: Policy!
@@ -20,9 +21,13 @@ export const ClaimModule = createModule({
       status: Status
     }
 
+    type Query {
+      readClaims: [Claim!]!
+      readClaim(_id: ID!): Claim
+    }
+
     type Mutation {
       createClaim(
-        _id: String!
         policy: String!
         clientId: String!
         claimType: String!
@@ -43,6 +48,10 @@ export const ClaimModule = createModule({
     }
   `,
   resolvers: {
+    Query: {
+      readClaims: (_, args) => readClaims(),
+      readClaim: (_, args) => readClaim(args)
+    },
     Mutation: {
       createClaim: (_, args, context) =>
         createClaim({ ...args, clientId: context._id }),

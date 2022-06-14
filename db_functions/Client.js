@@ -10,13 +10,10 @@ import { PolicySchema } from "./Policy.js";
 const schemaTypes = mongoose.Schema.Types;
 
 export const ClientSchema = mongoose.Schema({
-  _id: {
-    type: schemaTypes.ObjectId,
-    required: [true, "This field cannot be empty."],
-  },
   email: {
     type: schemaTypes.String,
     required: [true, "This field cannot be empty."],
+    unique: [true, "An account with this email already exists."]
   },
   password: {
     type: schemaTypes.String,

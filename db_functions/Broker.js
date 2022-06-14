@@ -1,18 +1,15 @@
 import mongoose from "mongoose";
-import { unpackSingleDocument } from "../utils/unpackDocument.js";
+import { unpackMultipleDocuments , unpackSingleDocument } from "../utils/unpackDocument.js";
 import { AgentSchema } from "./Agent.js";
 import { ClientSchema } from "./Client.js";
 import { PolicySchema } from "./Policy.js";
 const schemaTypes = mongoose.Schema.Types;
 
 export const BrokerSchema = mongoose.Schema({
-  _id: {
-    type: schemaTypes.ObjectId,
-    required: [true, "This field cannot be empty."],
-  },
   email: {
     type: schemaTypes.String,
     required: [true, "This field cannot be empty."],
+    unique: [true, "An account with this email already exists."]
   },
   password: {
     type: schemaTypes.String,
@@ -40,6 +37,12 @@ export const createBroker = (broker) => {
     .then((res) => ({ completed: res._id }))
     .catch((err) => ({ error: err }));
   return httpResponse;
+};
+
+export const readBrokers = (params) => {
+  return BrokerObject.find(params)
+    .then(unpackMutlipleDocuments)
+    .catch((err) => console.log("Error while getting lessons"));
 };
 
 export const readBroker = (params) => {

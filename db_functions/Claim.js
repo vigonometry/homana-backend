@@ -5,10 +5,6 @@ import { PolicySchema } from "./Policy.js"
 const schemaTypes = mongoose.Schema.Types;
 
 export const ClaimSchema = mongoose.Schema({
-  _id: {
-    type: schemaTypes.ObjectId,
-    required: [true, "This field cannot be empty."],
-  },
   policy: {
     type: PolicySchema,
     required: [true, "This field cannot be empty."],
