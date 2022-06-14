@@ -1,4 +1,5 @@
 import { createModule, gql } from "graphql-modules";
+import { readPoliciesTaken, readPolicyTaken } from "../db_functions/PolicyTaken.js";
 
 export const PolicyTakenModule = createModule({
   id: "policytaken",
@@ -8,7 +9,7 @@ export const PolicyTakenModule = createModule({
       APPROVED
       REJECTED
     }
-    type Policy {
+    type PolicyTaken {
       _id: ID!
       policyId: ID!
       customerId: ID!
@@ -16,5 +17,15 @@ export const PolicyTakenModule = createModule({
       date: String!
       status: Status
     }
+    type Query {
+      readPoliciesTaken: [PolicyTaken!]!
+      readPolicyTaken(policyId: ID!): PolicyTaken
+    }
   `,
+  resolvers: {
+    Query: {
+      readPoliciesTaken: readPoliciesTaken(),
+      readPolicyTaken: (_, args) => readPolicyTaken(args)
+    }
+  }
 });

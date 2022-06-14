@@ -7,7 +7,7 @@ import { readClient } from "../db_functions/Client.js";
 export const UserModule = createModule({
   id: "user",
   typeDefs: gql`
-    interface UserModule {
+    interface User {
       _id: ID!
       email: ID
       password: String

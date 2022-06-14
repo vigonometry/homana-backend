@@ -1,7 +1,7 @@
 import { createModule, gql } from "graphql-modules";
 import { readClaim, readClaims } from "../db_functions/Claim.js";
 import { createClient } from "../db_functions/Client.js";
-import { readPolicies, readPolicy } from "../db_functions/Policy.js";
+import { readPoliciesTaken, readPolicyTaken } from "../db_functions/PolicyTaken.js";
 
 export const ClientModule = createModule({
   id: "client",
@@ -16,8 +16,8 @@ export const ClientModule = createModule({
     }
 
     type Query {
-      readPolicies: [PolicyTaken!]! #resolver field
-      readPolicy(policyId: ID!): PolicyTaken #resolver field
+      readPoliciesTaken: [PolicyTaken!]! #resolver field
+      readPolicyTaken(policyId: ID!): PolicyTaken #resolver field
       readClaims: [Claim!]! #resolver field
       readClaim(_id: ID!): Claim
     }
@@ -33,8 +33,8 @@ export const ClientModule = createModule({
   `,
   resolvers: {
     Query: {
-      readPolicies: readPolicies(),
-      readPolicy: (_, args) => readPolicy(args),
+      readPoliciesTaken: readPoliciesTaken(),
+      readPolicyTaken: (_, args) => readPolicyTaken(args),
       readClaims: readClaims(),
       readClaim: (_, args) => readClaim(args),
     },

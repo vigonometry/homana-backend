@@ -12,8 +12,8 @@ export const BrokerModule = createModule({
       _id: ID!
       email: ID!
       password: String!
-      agents: [Agents!]!
-      clients: [Clients!]!
+      agents: [Agent!]!
+      clients: [Client!]!
       policies: [Policy!]!
       claims: [Claim!]!
     }
@@ -23,7 +23,7 @@ export const BrokerModule = createModule({
       readAgent(_id: ID!): Agent #resolver field
       readClients: [Client!]! #resolver field
       readClient(_id: ID!): Client #resolver field
-      readPolicies: [Policies!]! #resolver field
+      readPolicies: [Policy!]! #resolver field
       readPolicy(_id: ID!): Policy #resolver field
       readClaims: [Claim!]! #resolver field
       readClaim(_id: ID!): Claim #resolver field
