@@ -22,21 +22,22 @@ export const ClaimModule = createModule({
 
     type Mutation {
       createClaim(
-        _id: ID!
-        policy: Policy!
-        clientId: ID!
+        _id: String!
+        policy: String!
+        clientId: String!
         claimType: String!
         receiptAmount: Float!
         claimAmount: Float!
-        status: Status
+        status: String
       ): HTTPResponse
       updateClaim(
-        _id: ID!
-        policy: Policy!
+        _id: String!
+        policy: String!
+        clientId: String!
         claimType: String!
         receiptAmount: Float!
         claimAmount: Float!
-        status: Status
+        status: String
       ): HTTPResponse
       deleteClaim(_id: ID!): HTTPResponse
     }

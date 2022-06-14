@@ -30,7 +30,7 @@ export const BrokerModule = createModule({
     }
 
     type Mutation {
-      createBroker(_id: ID!, email: ID!, password: String!): HTTPResponse
+      createBroker(_id: String!, email: String!, password: String!): HTTPResponse
     }
   `,
   resolvers: {

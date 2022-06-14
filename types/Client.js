@@ -24,10 +24,10 @@ export const ClientModule = createModule({
 
     type Mutation {
       createClient(
-        _id: ID!
-        email: ID
+        _id: String!
+        email: String
         password: String
-        dependants: [ID!]!
+        dependants: [String!]!
       ): HTTPResponse
     }
   `,

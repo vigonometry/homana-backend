@@ -14,9 +14,9 @@ export const PolicyModule = createModule({
 
     type Mutation {
       createPolicy(
-        _id: ID!
+        _id: String!
         title: String!
-        brokerId: ID!
+        brokerId: String!
         type: String!
         insuredAmount: Float!
       ): HTTPResponse

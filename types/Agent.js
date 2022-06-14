@@ -20,10 +20,10 @@ export const AgentModule = createModule({
 
     type Mutation {
       createAgent(
-        _id: ID!
-        email: ID!
+        _id: String!
+        email: String!
         password: String!
-        brokerId: ID!
+        brokerId: String!
       ): HTTPResponse
     }
   `,
