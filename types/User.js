@@ -14,7 +14,7 @@ export const UserModule = createModule({
     }
 
     type HomanaContext {
-      currentUser: UserModule
+      currentUser: User
       dbInitialized: Boolean
     }
 
