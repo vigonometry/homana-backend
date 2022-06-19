@@ -13,41 +13,33 @@ export const UserModule = createModule({
 			password: String
 		}
 
-		type HomanaContext {
-			currentUser: User
-			dbInitialized: Boolean
-		}
-
 		type Query {
-			homanaContext: HomanaContext
+			currentUser: User
 		}
 
 		type Mutation {
-			login(email: String, password: String): HTTPResponse
+			login(email: String!, password: String!): HTTPResponse
 		}
 	`,
 	resolvers: {
+		User: {
+			__resolveType: (obj) => obj.dependants ? 'Client' : obj.brokerId ? 'Agent' : 'Broker'
+		},
 		Query: {
-			homanaContext: async (_, __, context) => {
-				var user = await readClient({ _id: context._id })
-				if (!user) {
-					user = await readAgent({ _id: context._id })
-				}
-				if (!user) {
-					user = await readBroker({ _id: context._id })
-				}
-
-				return { currentUser: user, dbInitialized: true }
+			currentUser: async (_, __, context) => {
+				var user = await readBroker({ _id: context._id })
+				if (!user) user = await readAgent({ _id: context._id })
+				if (!user) user = await readClient({ _id: context._id })
+				return user
 			},
 		},
 		Mutation: {
 			login: async (_, args) => {
 				const { email, password } = args
-				const client = await readClient({ email: email })
-				const agent = await readAgent({ email: email })
-				const broker = await readBroker({ email: email })
-
-				const user = !client ? (!agent ? broker : agent) : client
+				console.log(email)
+				var user = await readBroker({ email: email })
+				if (!user) user = await readAgent({ email: email })
+				if (!user) user = await readClient({ email: email })
 				if (!user) return { error: "Email is not in our database." }
 				const valid = password === user.password
 				if (!valid) return { error: "Incorrect password entered." }
