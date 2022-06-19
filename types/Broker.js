@@ -8,10 +8,6 @@ export const BrokerModule = createModule({
 			_id: ID!
 			email: ID!
 			password: String!
-			agents: [Agent!]!
-			clients: [Client!]!
-			policies: [Policy!]!
-			claims: [Claim!]!
 		}
 
 		type Query {
@@ -25,7 +21,7 @@ export const BrokerModule = createModule({
 	`,
 	resolvers: {
 		Query: {
-			readBrokers: (_, args) => readBrokers(),
+			readBrokers: () => readBrokers(),
 			readBroker: (_, args) => readBroker(args)
 		},
 		Mutation: {

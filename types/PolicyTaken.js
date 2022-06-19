@@ -19,12 +19,12 @@ export const PolicyTakenModule = createModule({
 		}
 		type Query {
 			readPoliciesTaken: [PolicyTaken!]!
-			readPolicyTaken(policyId: ID!): PolicyTaken
+			readPolicyTaken(_id: ID!): PolicyTaken
 		}
 	`,
 	resolvers: {
 		Query: {
-			readPoliciesTaken: (_, args) => readPoliciesTaken(),
+			readPoliciesTaken: () => readPoliciesTaken(),
 			readPolicyTaken: (_, args) => readPolicyTaken(args)
 		}
 	}

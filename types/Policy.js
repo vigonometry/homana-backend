@@ -16,26 +16,19 @@ export const PolicyModule = createModule({
 			readPolicy: Policy
 		}
 		type Mutation {
-			createPolicy(
-				title: String!
-				brokerId: String!
-				type: String!
-				insuredAmount: Float!
-			): HTTPResponse
-			updatePolicy(_id: ID!, insuredAmount: String!): HTTPResponse
+			createPolicy(title: String!, brokerId: String!, type: String!, insuredAmount: Float!): HTTPResponse
+			updatePolicy(_id: ID!, insuredAmount: Float!): HTTPResponse
 			deletePolicy(_id: ID!): HTTPResponse
 		}
 	`,
 	resolvers: {
 		Query: {
-			readPolicies: (_, args) => readPolicies(),
+			readPolicies: () => readPolicies(),
 			readPolicy: (_, args) => readPolicy(args)
 		},
 		Mutation: {
-			createPolicy: (_, args, context) =>
-				createPolicy({ ...args, clientId: context._id }),
-			updatePolicy: async (_, args) =>
-				updatePolicy({_id: args._id}, args),
+			createPolicy: (_, args, context) => createPolicy(args),
+			updatePolicy: (_, args) => updatePolicy({_id: args._id}, args),
 			deletePolicy: (_, args) => deletePolicy(args),
 		},
 	},

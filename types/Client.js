@@ -9,8 +9,6 @@ export const ClientModule = createModule({
 			email: ID
 			password: String
 			dependants: [ID!]!
-			policies: [PolicyTaken!]! #resolver
-			claims: [Claim!]! #resolver 
 		}
 
 		type Query {
@@ -19,16 +17,12 @@ export const ClientModule = createModule({
 		}
 
 		type Mutation {
-			createClient(
-				email: String
-				password: String
-				dependants: [String!]!
-			): HTTPResponse
+			createClient(email: String!, password: String!, dependants: [String!]!): HTTPResponse
 		}
 	`,
 	resolvers: {
 		Query: {
-			readClients: (_, args) => readClients(),
+			readClients: () => readClients(),
 			readClient: (_, args) => readClient(args)
 		},
 		Mutation: {
