@@ -17,7 +17,7 @@ export const ClientModule = createModule({
 		}
 
 		type Mutation {
-			createClient(email: String!, password: String!, dependants: [String!]!): HTTPResponse
+			createClient(email: String!, password: String!, dependants: [String!]): HTTPResponse
 		}
 	`,
 	resolvers: {

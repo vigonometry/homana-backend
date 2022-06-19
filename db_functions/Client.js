@@ -16,6 +16,7 @@ export const ClientSchema = mongoose.Schema({
 	dependants: {
 		type: [schemaTypes.String],
 		required: [true, "This field cannot be empty."],
+		default: []
 	}
 })
 
