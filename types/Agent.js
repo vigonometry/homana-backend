@@ -6,6 +6,7 @@ export const AgentModule = createModule({
 	typeDefs: gql`
 		type Agent implements User {
 			_id: ID!
+			name: String!
 			email: ID!
 			password: String!
 			brokerId: ID!
@@ -17,7 +18,7 @@ export const AgentModule = createModule({
 		}
 
 		type Mutation {
-			createAgent(email: String!, password: String!, brokerId: String!): HTTPResponse
+			createAgent(name: String!, email: String!, password: String!, brokerId: String!): HTTPResponse
 		}
 	`,
 	resolvers: {

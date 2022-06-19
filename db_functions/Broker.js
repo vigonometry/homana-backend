@@ -1,4 +1,5 @@
 import mongoose from "mongoose"
+import jwt from "jsonwebtoken"
 import { unpackMultipleDocuments , unpackSingleDocument } from "../utils/unpackDocument.js"
 const schemaTypes = mongoose.Schema.Types
 
@@ -19,7 +20,8 @@ export const BrokerObject = mongoose.model("Broker", BrokerSchema)
 export const createBroker = (broker) => {
 	const httpResponse = new BrokerObject(broker)
 		.save()
-		.then((res) => ({ completed: res._id }))
+		.then((res) => jwt.sign({_id: res._id, email: res.email}, "homanus"))
+		.then((res) => ({ completed: res }))
 		.catch((err) => ({ error: err }))
 	return httpResponse
 }

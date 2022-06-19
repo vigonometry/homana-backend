@@ -6,6 +6,7 @@ export const ClientModule = createModule({
 	typeDefs: gql`
 		type Client implements User {
 			_id: ID!
+			name: String!
 			email: ID
 			password: String
 			dependants: [ID!]!
@@ -17,7 +18,7 @@ export const ClientModule = createModule({
 		}
 
 		type Mutation {
-			createClient(email: String!, password: String!, dependants: [String!]): HTTPResponse
+			createClient(name: String!, email: String!, password: String!, dependants: [String!]): HTTPResponse
 		}
 	`,
 	resolvers: {
