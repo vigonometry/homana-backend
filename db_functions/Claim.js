@@ -1,12 +1,11 @@
 import mongoose from "mongoose"
 import { unpackMultipleDocuments, unpackSingleDocument } from "../utils/unpackDocument.js"
-import { PolicySchema } from "./Policy.js"
 
 const schemaTypes = mongoose.Schema.Types
 
 export const ClaimSchema = mongoose.Schema({
-	policy: {
-		type: PolicySchema,
+	policyId: {
+		type: schemaTypes.String,
 		required: [true, "This field cannot be empty."],
 	},
 	clientId: {
@@ -27,7 +26,7 @@ export const ClaimSchema = mongoose.Schema({
 		type: schemaTypes.Number,
 		required: [true, "This field cannot be empty."],
 	},
-	attachments: { type: schemaTypes.String }, // FIX: String for now but change to file later
+	attachments: { type: [schemaTypes.String] }, // FIX: String for now but change to file later
 	status: { type: schemaTypes.String } // FIX
 })
 

@@ -39,5 +39,5 @@ export const readAgents = (params) => {
 export const readAgent = (params) => {
 	return AgentObject.findOne(params)
 		.then(unpackSingleDocument)
-		.catch((err) => console.log("Error while getting leagentsson"))
+		.catch((err) => console.log("Error while getting agent"))
 }
