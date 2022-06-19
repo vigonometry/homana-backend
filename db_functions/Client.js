@@ -22,15 +22,7 @@ export const ClientSchema = mongoose.Schema({
 	dependants: {
 		type: [schemaTypes.String],
 		required: [true, "This field cannot be empty."],
-	},
-	policies: {
-		type: [PolicySchema],
-		required: [true, "This field cannot be empty."],
-	},
-	claims: {
-		type: [ClaimSchema],
-		required: [true, "This field cannot be empty."],
-	},
+	}
 })
 
 export const ClientObject = mongoose.model("Client", ClientSchema)

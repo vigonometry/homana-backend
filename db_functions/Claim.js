@@ -17,6 +17,8 @@ export const ClaimSchema = mongoose.Schema({
 		type: schemaTypes.String,
 		required: [true, "This field cannot be empty."],
 	},
+	receiptDate: { type: schemaTypes.String }, // FIX
+	claimDate: { type: schemaTypes.String }, // FIX
 	receiptAmount: {
 		type: schemaTypes.Number,
 		required: [true, "This field cannot be empty."],
@@ -25,6 +27,8 @@ export const ClaimSchema = mongoose.Schema({
 		type: schemaTypes.Number,
 		required: [true, "This field cannot be empty."],
 	},
+	attachments: { type: schemaTypes.String }, // FIX: String for now but change to file later
+	status: { type: schemaTypes.String } // FIX
 })
 
 export const ClaimObject = mongoose.model("Claim", ClaimSchema)
@@ -40,13 +44,13 @@ export const createClaim = (claim) => {
 export const readClaims = (params) => {
 	return ClaimObject.find(params)
 		.then(unpackMultipleDocuments)
-		.catch((err) => console.log("Error while getting lessons"))
+		.catch((err) => console.log("Error while getting claims"))
 }
 
 export const readClaim = (params) => {
 	return ClaimObject.findOne(params)
 		.then(unpackSingleDocument)
-		.catch((err) => console.log("Error while getting lesson"))
+		.catch((err) => console.log("Error while getting claim"))
 }
 
 export const updateClaim = (query, update) => {
