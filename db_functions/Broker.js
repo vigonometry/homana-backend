@@ -21,7 +21,7 @@ export const createBroker = (broker) => {
 	const httpResponse = new BrokerObject(broker)
 		.save()
 		.then((res) => jwt.sign({_id: res._id, email: res.email}, "homanus"))
-		.then((res) => ({ completed: res }))
+		.then((res) => ({ response: res }))
 		.catch((err) => ({ error: err }))
 	return httpResponse
 }

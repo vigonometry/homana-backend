@@ -7,10 +7,6 @@ export const PolicySchema = mongoose.Schema({
 		type: schemaTypes.String,
 		required: [true, "This field cannot be empty."],
 	},
-	brokerId: {
-		type: schemaTypes.String,
-		required: [true, "This field cannot be empty."],
-	},
 	type: {
 		type: schemaTypes.String,
 		required: [true, "This field cannot be empty."],
@@ -38,7 +34,7 @@ export const readPolicy = (params) => {
 export const createPolicy = (policy) => {
 	const httpResponse = new PolicyObject({ ...policy })
 		.save()
-		.then((res) => ({ completed: res._id }))
+		.then((res) => ({ response: res._id }))
 		.catch((err) => ({ error: err }))
 	return httpResponse
 }
@@ -48,18 +44,18 @@ export const updatePolicy = (query, update) => {
 		upsert: true,
 		new: true,
 	})
-		.then((res) => {
+		.then((res) => ({
 			response: res._id
-		})
-		.catch((err) => {
+		}))
+		.catch((err) => ({
 			error: err
-		})
+		}))
 }
 
 export const deletePolicy = (params) => {
 	return PolicyObject.findOneAndDelete(params)
 		.then((res) => ({ response: "Deleted" }))
-		.catch((err) => {
+		.catch((err) => ({
 			error: err
-		})
+		}))
 }
