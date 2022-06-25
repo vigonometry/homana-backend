@@ -7,7 +7,6 @@ export const PolicyModule = createModule({
 		type Policy {
 			_id: ID!
 			title: String!
-			brokerId: ID!
 			type: String!
 			insuredAmount: Float!
 		}
@@ -16,7 +15,7 @@ export const PolicyModule = createModule({
 			readPolicy: Policy
 		}
 		type Mutation {
-			createPolicy(title: String!, brokerId: String!, type: String!, insuredAmount: Float!): HTTPResponse
+			createPolicy(title: String!, type: String!, insuredAmount: Float!): HTTPResponse
 			updatePolicy(_id: ID!, insuredAmount: Float!): HTTPResponse
 			deletePolicy(_id: ID!): HTTPResponse
 		}
