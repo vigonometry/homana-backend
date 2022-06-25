@@ -6,6 +6,7 @@ export const BrokerModule = createModule({
 	typeDefs: gql`
 		type Broker implements User {
 			_id: ID!
+			name: String!
 			email: ID!
 			password: String!
 		}
@@ -16,7 +17,7 @@ export const BrokerModule = createModule({
 		}
 
 		type Mutation {
-			createBroker(email: String!, password: String!): HTTPResponse
+			createBroker(name: String!, email: ID!, password: String!): HTTPResponse
 		}
 	`,
 	resolvers: {

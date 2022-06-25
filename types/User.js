@@ -9,8 +9,9 @@ export const UserModule = createModule({
 	typeDefs: gql`
 		interface User {
 			_id: ID!
-			email: ID
-			password: String
+			name: String!
+			email: ID!
+			password: String!
 		}
 
 		type Query {

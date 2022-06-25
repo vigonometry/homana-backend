@@ -4,6 +4,9 @@ import { unpackMultipleDocuments , unpackSingleDocument } from "../utils/unpackD
 const schemaTypes = mongoose.Schema.Types
 
 export const BrokerSchema = mongoose.Schema({
+	name: {
+		type: schemaTypes.String
+	},
 	email: {
 		type: schemaTypes.String,
 		required: [true, "This field cannot be empty."],
