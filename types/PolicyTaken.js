@@ -5,7 +5,9 @@ export const PolicyTakenModule = createModule({
 	id: "policytaken",
 	typeDefs: gql`
 		enum Status {
+			QUOTED
 			APPLIED
+			CANCELLED
 			APPROVED
 			REJECTED
 		}
@@ -16,6 +18,8 @@ export const PolicyTakenModule = createModule({
 			agentId: ID!
 			date: String!
 			status: Status
+			insuredAmount: Float
+			premium: Float
 		}
 		type Query {
 			readPoliciesTaken: [PolicyTaken!]!

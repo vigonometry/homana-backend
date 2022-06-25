@@ -9,7 +9,6 @@ export const AgentModule = createModule({
 			name: String!
 			email: ID!
 			password: String!
-			brokerId: ID!
 		}
 
 		type Query {
@@ -18,7 +17,7 @@ export const AgentModule = createModule({
 		}
 
 		type Mutation {
-			createAgent(name: String!, email: ID!, password: String!, brokerId: String!): HTTPResponse
+			createAgent(name: String!, email: ID!, password: String!): HTTPResponse
 		}
 	`,
 	resolvers: {
