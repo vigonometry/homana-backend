@@ -15,6 +15,10 @@ export const PolicySchema = mongoose.Schema({
 		type: schemaTypes.Number,
 		required: [true, "This field cannot be empty."],
 	},
+	premium: {
+		type: schemaTypes.Number,
+		required: [true, "This field cannot be empty."],
+	},
 })
 
 export const PolicyObject = mongoose.model("Policy", PolicySchema)

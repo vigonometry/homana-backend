@@ -1,5 +1,6 @@
 import { createModule, gql } from "graphql-modules"
 import { createBroker, readBroker, readBrokers } from "../db_functions/Broker.js"
+import { readPolicies } from "../db_functions/Policy.js"
 
 export const BrokerModule = createModule({
 	id: "broker",
@@ -9,6 +10,7 @@ export const BrokerModule = createModule({
 			name: String!
 			email: ID!
 			password: String!
+			policies: [Policy!]!
 		}
 
 		type Query {
@@ -21,6 +23,9 @@ export const BrokerModule = createModule({
 		}
 	`,
 	resolvers: {
+		Broker: {
+			policies: () => readPolicies()
+		},
 		Query: {
 			readBrokers: () => readBrokers(),
 			readBroker: (_, args) => readBroker(args)
