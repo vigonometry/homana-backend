@@ -25,7 +25,7 @@ export const UserModule = createModule({
 	`,
 	resolvers: {
 		User: {
-			__resolveType: (obj) => obj.dependants ? 'Client' : obj.brokerId ? 'Agent' : 'Broker'
+			__resolveType: (obj) => obj.dependants ? 'Client' : obj.isAgent ? 'Agent' : 'Broker'
 		},
 		Query: {
 			currentUser: async (_, __, context) => {

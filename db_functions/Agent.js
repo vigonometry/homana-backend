@@ -15,6 +15,10 @@ export const AgentSchema = mongoose.Schema({
 	password: {
 		type: schemaTypes.String,
 		required: [true, "This field cannot be empty."],
+	},
+	isAgent: {
+		type: schemaTypes.Boolean,
+		default: true
 	}
 })
 
