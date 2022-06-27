@@ -30,6 +30,12 @@ const apolloContext = async ({ req }) => {
 		return user
 }
 
+const testApolloContext = ({ req }) => {
+	if (req.body.operationName === 'IntrospectionQuery') return {}
+	console.log(req.body.operationName)
+	return {}
+}
+
 export default async function startApolloServer() {
 	const app = express()
 	const httpServer = http.createServer(app)
