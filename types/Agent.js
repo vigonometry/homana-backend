@@ -1,5 +1,6 @@
 import { createModule, gql } from "graphql-modules"
 import { createAgent, readAgent, readAgents } from "../db_functions/Agent.js"
+import { readPoliciesTaken } from "../db_functions/PolicyTaken.js"
 
 export const AgentModule = createModule({
 	id: "agent",
@@ -9,6 +10,8 @@ export const AgentModule = createModule({
 			name: String!
 			email: ID!
 			password: String!
+			isAgent: Boolean!
+			policiesTaken: [PolicyTaken!]!
 		}
 
 		type Query {
@@ -21,6 +24,9 @@ export const AgentModule = createModule({
 		}
 	`,
 	resolvers: {
+		Agent: {
+			policiesTaken: (parent) => readPoliciesTaken({ agentId: parent._id})
+		},
 		Query: {
 			readAgents: () => readAgents(),
 			readAgent: (_, args) => readAgent(args)
