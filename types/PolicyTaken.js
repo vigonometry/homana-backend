@@ -35,6 +35,8 @@ export const PolicyTakenModule = createModule({
 		type Mutation {
 			createPolicyTaken(policyId: ID!, clientEmail: ID!, agentId: ID!, status: Status, insuredAmount: Float!, premium: Float!): HTTPResponse
 			updatePolicyTaken(_id: ID!, policyId: ID, clientId: ID, agentId: ID, status: Status, insuredAmount: Float, premium: Float): HTTPResponse
+			policyTakenNext(_id: ID!, status: Status!): HTTPResponse
+			policyTakenCancel(_id: ID!, status: Status!): HTTPResponse
 		}
 	`,
 	resolvers: {
@@ -54,7 +56,21 @@ export const PolicyTakenModule = createModule({
 				const httpResponse = await createPolicyTaken({...args, clientId: client._id})
 				return httpResponse
 			},
-			updatePolicyTaken: (_, args) => updatePolicyTaken({_id: args._id}, args)
+			updatePolicyTaken: (_, args) => updatePolicyTaken({_id: args._id}, args),
+			policyTakenNext: async (_, args) => {
+				const { _id, status } = args
+				const nextStatus = status === 'QUOTED' ? 'APPLIED' : 'APPROVED'
+				const httpResponse = await updatePolicyTaken({ _id: _id}, { status: nextStatus })
+				if (httpResponse.response) return { response: nextStatus}
+				return { error: httpResponse.error }
+			},
+			policyTakenCancel: async (_, args) => {
+				const { _id, status } = args
+				const nextStatus = status === 'QUOTED' ? 'CANCELLED' : 'REJECTED'
+				const httpResponse = await updatePolicyTaken({ _id: _id}, { status: nextStatus })
+				if (httpResponse.response) return { response: nextStatus}
+				return { error: httpResponse.error }
+			}
 		}
 	}
 })
