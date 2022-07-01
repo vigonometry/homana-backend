@@ -12,10 +12,10 @@ export const ClaimSchema = mongoose.Schema({
 		type: schemaTypes.String,
 		required: [true, "This field cannot be empty."],
 	},
-	claimType: {
-		type: schemaTypes.String,
-		required: [true, "This field cannot be empty."],
-	},
+	// claimType: {
+	// 	type: schemaTypes.String,
+	// 	required: [true, "This field cannot be empty."],
+	// },
 	receiptDate: { type: schemaTypes.String }, // FIX
 	claimDate: { type: schemaTypes.String }, // FIX
 	receiptAmount: {
@@ -35,7 +35,7 @@ export const ClaimObject = mongoose.model("Claim", ClaimSchema)
 export const createClaim = (claim) => {
 	const httpResponse = new ClaimObject({ ...claim })
 		.save()
-		.then((res) => ({ completed: res._id }))
+		.then((res) => ({ response: res._id }))
 		.catch((err) => ({ error: err }))
 	return httpResponse
 }
