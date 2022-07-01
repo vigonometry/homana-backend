@@ -1,4 +1,5 @@
 import { createModule, gql } from "graphql-modules"
+import { readClaims } from "../db_functions/Claim.js"
 import { createClient, readClient, readClients } from "../db_functions/Client.js"
 import { readPoliciesTaken } from "../db_functions/PolicyTaken.js"
 
@@ -12,6 +13,7 @@ export const ClientModule = createModule({
 			password: String!
 			dependants: [ID!]!
 			policiesTaken: [PolicyTaken!]!
+			claims: [Claim!]!
 		}
 
 		type Query {
@@ -25,6 +27,7 @@ export const ClientModule = createModule({
 	`,
 	resolvers: {
 		Client: {
+			claims: (parent) => readClaims({ clientId: parent._id }),
 			policiesTaken: (parent) => readPoliciesTaken({ clientId: parent._id})
 		},
 		Query: {

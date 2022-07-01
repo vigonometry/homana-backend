@@ -14,7 +14,7 @@ export const ClaimModule = createModule({
 			_id: ID!
 			policyId: ID!
 			clientId: ID!
-			claimType: String!
+			# claimType: String!
 			receiptDate: String!
 			claimDate: String!
 			receiptAmount: Float!
@@ -29,8 +29,7 @@ export const ClaimModule = createModule({
 		}
 
 		type Mutation {
-			createClaim(policyId: ID!, claimType: String!, receiptDate: String!, claimDate: String!, receiptAmount: Float!, claimAmount: Float!, attachments: [String!]! status: String): HTTPResponse
-			updateClaim(_id: String!, clientId: ID! policyId: ID!, claimType: String!, receiptDate: String!, claimDate: String!, receiptAmount: Float!, claimAmount: Float!, attachments: [String!]! status: String): HTTPResponse
+			createClaim(policyId: ID!, receiptDate: String!, receiptAmount: Float!, claimAmount: Float!, attachments: [String!]!, status: String): HTTPResponse
 			deleteClaim(_id: ID!): HTTPResponse
 		}
 	`,
@@ -40,8 +39,7 @@ export const ClaimModule = createModule({
 			readClaim: (_, args) => readClaim(args)
 		},
 		Mutation: {
-			createClaim: (_, args, context) => createClaim({ ...args, clientId: context._id }),
-			updateClaim: (_, args) => updateClaim({ _id: args._id }, args),
+			createClaim: (_, args, context) => createClaim({ ...args, clientId: context._id, claimDate: new Date().toISOString(), status: 'APPLIED' }),
 			deleteClaim: (_, args) => deleteClaim(args),
 		},
 	},

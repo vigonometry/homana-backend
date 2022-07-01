@@ -12,6 +12,7 @@ export const AgentModule = createModule({
 			password: String!
 			isAgent: Boolean!
 			policiesTaken: [PolicyTaken!]!
+			claims: [Claim!]!
 		}
 
 		type Query {

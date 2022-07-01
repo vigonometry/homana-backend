@@ -13,6 +13,7 @@ export const BrokerModule = createModule({
 			password: String!
 			policies: [Policy!]!
 			policiesTaken: [PolicyTaken!]!
+			claims: [Claim!]!
 		}
 
 		type Query {
