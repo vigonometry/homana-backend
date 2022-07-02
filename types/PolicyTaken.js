@@ -14,6 +14,8 @@ export const PolicyTakenModule = createModule({
 			CANCELLED
 			APPROVED
 			REJECTED
+			SUBMITTED
+			PROCESSING
 		}
 		type PolicyTaken {
 			_id: ID!
