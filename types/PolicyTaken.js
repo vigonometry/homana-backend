@@ -55,6 +55,8 @@ export const PolicyTakenModule = createModule({
 			createPolicyTaken: async (_, args) => {
 				const client = await readClient({ email: args.clientEmail })
 				if (!client) return { error: 'Client not found' }
+				const clientPoliciesTaken = await readPoliciesTaken({ clientId: client._id})
+				if (clientPoliciesTaken.filter(p => p.status === 'APPROVED').map(p => p.policyId.toString()).includes(args.policyId)) return { error: 'Client already registered in this policy.'}
 				const httpResponse = await createPolicyTaken({...args, clientId: client._id})
 				return httpResponse
 			},
