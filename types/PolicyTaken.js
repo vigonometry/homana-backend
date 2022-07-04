@@ -61,15 +61,21 @@ export const PolicyTakenModule = createModule({
 				return httpResponse
 			},
 			updatePolicyTaken: (_, args) => updatePolicyTaken({_id: args._id}, args),
-			policyTakenNext: async (_, args) => {
+			policyTakenNext: async (_, args, context) => {
 				const { _id, status } = args
+				var user = await readAgent({ _id: context._id })
+				if (!user) user = await readBroker({ _id: context._id })
+				if (!user) return { error: 'Not authorised'}
 				const nextStatus = status === 'QUOTED' ? 'APPLIED' : 'APPROVED'
 				const httpResponse = await updatePolicyTaken({ _id: _id}, { status: nextStatus })
 				if (httpResponse.response) return { response: nextStatus}
 				return { error: httpResponse.error }
 			},
-			policyTakenCancel: async (_, args) => {
+			policyTakenCancel: async (_, args, context) => {
 				const { _id, status } = args
+				var user = await readAgent({ _id: context._id })
+				if (!user) user = await readBroker({ _id: context._id })
+				if (!user) return { error: 'Not authorised'}
 				const nextStatus = status === 'QUOTED' ? 'CANCELLED' : 'REJECTED'
 				const httpResponse = await updatePolicyTaken({ _id: _id}, { status: nextStatus })
 				if (httpResponse.response) return { response: nextStatus}

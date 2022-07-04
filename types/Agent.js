@@ -32,7 +32,6 @@ export const AgentModule = createModule({
 				const policiesTaken = await readPoliciesTaken({ agentId: parent._id })
 				const ids = policiesTaken.map(p => p._id.toString())
 				const claims = await readClaims({ policyId: { $in: ids }})
-				console.log(claims)
 				return claims
 			}
 		},

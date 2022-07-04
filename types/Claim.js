@@ -1,4 +1,6 @@
 import { createModule, gql } from "graphql-modules"
+import { readAgent } from "../db_functions/Agent.js"
+import { readBroker } from "../db_functions/Broker.js"
 import { createClaim, deleteClaim, readClaim, readClaims, updateClaim } from "../db_functions/Claim.js"
 import { readClient } from "../db_functions/Client.js"
 
@@ -42,15 +44,21 @@ export const ClaimModule = createModule({
 		Mutation: {
 			createClaim: (_, args, context) => createClaim({ ...args, clientId: context._id, claimDate: new Date().toISOString(), status: 'SUBMITTED' }),
 			deleteClaim: (_, args) => deleteClaim(args),
-			claimNext: async (_, args) => {
+			claimNext: async (_, args, context) => {
 				const { _id, status } = args
+				var user = await readAgent({ _id: context._id })
+				if (!user) user = await readBroker({ _id: context._id })
+				if (!user) return { error: 'Not authorised'}
 				const nextStatus = status === 'PROCESSING' ? 'APPROVED' : 'PROCESSING'
 				const httpResponse = await updateClaim({ _id: _id}, {status: nextStatus})
 				if (httpResponse.response) return { response: nextStatus}
 				return { error: httpResponse.error }
 			},
-			claimCancel: async (_, args) => {
+			claimCancel: async (_, args, context) => {
 				const { _id, status } = args
+				var user = await readAgent({ _id: context._id })
+				if (!user) user = await readBroker({ _id: context._id })
+				if (!user) return { error: 'Not authorised'}
 				const nextStatus = status === 'SUBMITTED' ? 'CANCELLED' : 'REJECTED'
 				const httpResponse = await updateClaim({ _id: _id}, {status: nextStatus})
 				if (httpResponse.response) return { response: nextStatus}
