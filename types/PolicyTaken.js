@@ -3,7 +3,7 @@ import { createPolicyTaken, readPoliciesTaken, readPolicyTaken, updatePolicyTake
 import { readPolicy } from "../db_functions/Policy.js"
 import { readClient } from "../db_functions/Client.js"
 import { readAgent } from "../db_functions/Agent.js"
-
+import { readBroker } from "../db_functions/Broker.js"
 
 export const PolicyTakenModule = createModule({
 	id: "policytaken",
@@ -29,6 +29,7 @@ export const PolicyTakenModule = createModule({
 			policy: Policy
 			client: Client
 			agent: Agent
+			dependants: [String!]!
 		}
 		type Query {
 			readPoliciesTaken: [PolicyTaken!]!
@@ -39,6 +40,7 @@ export const PolicyTakenModule = createModule({
 			updatePolicyTaken(_id: ID!, policyId: ID, clientId: ID, agentId: ID, status: Status, insuredAmount: Float, premium: Float): HTTPResponse
 			policyTakenNext(_id: ID!, status: Status!): HTTPResponse
 			policyTakenCancel(_id: ID!, status: Status!): HTTPResponse
+			updatePTDependants(_id: ID!, dependants: [String!]!): HTTPResponse
 		}
 	`,
 	resolvers: {
@@ -60,10 +62,19 @@ export const PolicyTakenModule = createModule({
 				const httpResponse = await createPolicyTaken({...args, clientId: client._id})
 				return httpResponse
 			},
+			updatePTDependants: async (_, args, context) => {
+				const client = await readClient({ _id: context._id })
+				if (!client) return { error: 'Error reading client'}
+				const dependants = client.dependants
+				const difference = args.dependants.filter(d => !dependants.includes(d))
+				if (difference.length > 0) return { error: 'One or more dependants are not associated with client'}
+				const httpResponse = await updatePolicyTaken({ _id: args._id }, args)
+				return httpResponse
+			},
 			updatePolicyTaken: (_, args) => updatePolicyTaken({_id: args._id}, args),
 			policyTakenNext: async (_, args, context) => {
 				const { _id, status } = args
-				var user = await readAgent({ _id: context._id })
+				var user = await readClient({ _id: context._id })
 				if (!user) user = await readBroker({ _id: context._id })
 				if (!user) return { error: 'Not authorised'}
 				const nextStatus = status === 'QUOTED' ? 'APPLIED' : 'APPROVED'

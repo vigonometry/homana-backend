@@ -30,6 +30,10 @@ export const PolicyTakenSchema = mongoose.Schema({
 	},
 	premium: {
 		type: schemaTypes.Number
+	},
+	dependants: {
+		type: [schemaTypes.String],
+		default: []
 	}
 })
 

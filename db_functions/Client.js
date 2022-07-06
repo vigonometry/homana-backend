@@ -46,3 +46,17 @@ export const readClient = (params) => {
 		.then(unpackSingleDocument)
 		.catch((err) => console.log("Error while getting client"))
 }
+
+
+export const updateClient = (query, update) => {
+	return ClientObject.findOneAndUpdate(query, update, {
+		upsert: true,
+		new: true,
+	})
+		.then((res) => ({
+			response: res._id
+		}))
+		.catch((err) => ({
+			error: err
+		}))
+}
