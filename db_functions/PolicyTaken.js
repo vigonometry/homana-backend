@@ -8,11 +8,11 @@ export const PolicyTakenSchema = mongoose.Schema({
 		required: [true, "This field cannot be empty."],
 	},
 	clientId: {
-		type: schemaTypes.ObjectId,
+		type: schemaTypes.String,
 		required: [true, "This field cannot be empty."],
 	},
 	agentId: {
-		type: schemaTypes.ObjectId,
+		type: schemaTypes.String,
 		required: [true, "This field cannot be empty."],
 	},
 	date: {
