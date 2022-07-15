@@ -86,12 +86,13 @@ export const PolicyTakenModule = createModule({
 				const { _id, status } = args
 				var user = await readAgent({ _id: context._id })
 				if (!user) user = await readBroker({ _id: context._id })
+				if (!user) user = await readClient({_id: context._id})
 				if (!user) return { error: 'Not authorised'}
 				const nextStatus = status === 'QUOTED' ? 'CANCELLED' : 'REJECTED'
 				const httpResponse = await updatePolicyTaken({ _id: _id}, { status: nextStatus })
 				if (httpResponse.response) return { response: nextStatus}
 				return { error: httpResponse.error }
-			}
+			},
 		}
 	}
 })
