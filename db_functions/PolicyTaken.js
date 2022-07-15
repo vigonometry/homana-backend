@@ -64,9 +64,3 @@ export const updatePolicyTaken = (query, update) => {
 		.then((res) => ({ response: res._id}))
 		.catch((err) => ({ error: err }))
 }
-
-export const updateClientId = (query, update) => {
-	return PolicyTakenObject.findOneAndUpdate(query, {clientId: update.clientId}, {upsert: true, new: true})
-	.then((res) => ({response: res._id}))
-	.catch((err) => ({error: err}))
-}

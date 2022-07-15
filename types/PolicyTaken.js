@@ -1,5 +1,5 @@
 import { createModule, gql } from "graphql-modules"
-import { createPolicyTaken, readPoliciesTaken, readPolicyTaken, updatePolicyTaken, updateClientId } from "../db_functions/PolicyTaken.js"
+import { createPolicyTaken, readPoliciesTaken, readPolicyTaken, updatePolicyTaken } from "../db_functions/PolicyTaken.js"
 import { readPolicy } from "../db_functions/Policy.js"
 import { readClient } from "../db_functions/Client.js"
 import { readAgent } from "../db_functions/Agent.js"
@@ -41,7 +41,6 @@ export const PolicyTakenModule = createModule({
 			policyTakenNext(_id: ID!, status: Status!): HTTPResponse
 			policyTakenCancel(_id: ID!, status: Status!): HTTPResponse
 			updatePTDependants(_id: ID!, dependants: [String!]!): HTTPResponse
-			updateClientId(_id: ID!, clientId: ID!): HTTPResponse
 		}
 	`,
 	resolvers: {
@@ -87,13 +86,13 @@ export const PolicyTakenModule = createModule({
 				const { _id, status } = args
 				var user = await readAgent({ _id: context._id })
 				if (!user) user = await readBroker({ _id: context._id })
+				if (!user) user = await readClient({_id: context._id})
 				if (!user) return { error: 'Not authorised'}
 				const nextStatus = status === 'QUOTED' ? 'CANCELLED' : 'REJECTED'
 				const httpResponse = await updatePolicyTaken({ _id: _id}, { status: nextStatus })
 				if (httpResponse.response) return { response: nextStatus}
 				return { error: httpResponse.error }
 			},
-			updateClientId: (_, args) => updateClientId(args)
 		}
 	}
 })
