@@ -2,7 +2,7 @@ import 'dotenv/config'
 import mongoose from 'mongoose';
 
 const MONGO_URL = process.env.MONGODB_URI || 'mongodb://0.0.0.0:27017'
-const DB_NAME = 'insurasec'
+const DB_NAME = 'homana'
 
 const connectToMongo = (after) => mongoose.connect(
 		MONGO_URL, 
